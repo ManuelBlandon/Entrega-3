@@ -1,21 +1,5 @@
 package com.bangroseron.atm.controller;
 
-<<<<<<< HEAD
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.bangroseron.atm.entity.Cliente;
-//import com.bangroseron.atm.repository.CuentaRepository;
-import com.bangroseron.atm.services.ClienteService;
-import com.bangroseron.atm.services.CuentaService;
-//import com.bangroseron.atm.services.MovimientoService;
-//import com.bangroseron.atm.services.RetiroService;
-=======
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -36,7 +20,6 @@ import com.bangroseron.atm.services.ClienteService;
 import com.bangroseron.atm.services.CuentaService;
 import com.bangroseron.atm.services.MovimientoService;
 import com.bangroseron.atm.services.RetiroService;
->>>>>>> 66ae0bb (commit)
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -45,17 +28,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/cajero")
 public class CajeroController {
-<<<<<<< HEAD
-    @Autowired
-    private final ClienteService clienteService;
-    private final CuentaService cuentaService;
-    //private final CuentaRepository cuentaRepository;
-    //private final MovimientoService movimientoService;
-    //private final RetiroService retiroService;
-
-    @GetMapping
-    public String loginForm(){
-=======
     private final ClienteService clienteService;
     private final CuentaService cuentaService;
     private final CuentaRepository cuentaRepository;
@@ -64,57 +36,34 @@ public class CajeroController {
 
    @GetMapping
     public String loginForm() {
->>>>>>> 66ae0bb (commit)
         return "cajero/login";
     }
 
     @PostMapping("/login")
     public String login(@RequestParam String numeroCuenta,
-<<<<<<< HEAD
-    @RequestParam String pin,HttpSession session, 
-    Model model) {
-        var cuenta = cuentaService.buscarPorNumero(numeroCuenta);
-        if (cuenta.isEmpty()) {
-            model.addAttribute("error", "Cuenta no se encuentra o Inexistente");
-=======
                         @RequestParam String pin,
                         HttpSession session,
                         Model model) {
         var cuenta = cuentaService.buscarPorNumero(numeroCuenta);
         if (cuenta.isEmpty()) {
             model.addAttribute("error", "Cuenta no encontrada.");
->>>>>>> 66ae0bb (commit)
             return "cajero/login";
         }
 
         Cliente cliente = cuenta.get().getCliente();
 
-<<<<<<< HEAD
-        if(cliente.isBloqueado()){
-            model.addAttribute("error", "Cuenta Bloqueada");
-=======
         if (cliente.isBloqueado()) {
             model.addAttribute("error", "Cuenta bloqueada.");
->>>>>>> 66ae0bb (commit)
             return "cajero/login";
         }
 
         if (!cliente.getPin().equals(pin)) {
             clienteService.incrementarIntento(cliente);
-<<<<<<< HEAD
-            if (cliente.getIntentos()>= 3) {
-                clienteService.bloquearCliente(cliente);
-                model.addAttribute("error", "Cuenta Bloqueada por intentos fallidos");
-
-            }else{
-                model.addAttribute("error", "Pin Incorrecto");
-=======
             if (cliente.getIntentos() >= 3) {
                 clienteService.bloquearCliente(cliente);
                 model.addAttribute("error", "Cuenta bloqueada por intentos fallidos.");
             } else {
                 model.addAttribute("error", "PIN incorrecto.");
->>>>>>> 66ae0bb (commit)
             }
             return "cajero/login";
         }
@@ -126,27 +75,13 @@ public class CajeroController {
 
     @GetMapping("/menu")
     public String menu(HttpSession session, Model model) {
-<<<<<<< HEAD
-        Cliente cliente = (Cliente) session.
-        getAttribute("cliente");
-        if (cliente == null) {
-            return "redirect:/cajero";
-        }//return new String();
-        
-=======
         Cliente cliente = (Cliente) session.getAttribute("cliente");
         if (cliente == null) return "redirect:/cajero";
->>>>>>> 66ae0bb (commit)
 
         model.addAttribute("cliente", cliente);
         model.addAttribute("cuentas", cuentaService.buscarPorCliente(cliente));
         return "cajero/menu";
     }
-<<<<<<< HEAD
-    
-    
-}
-=======
 
     @GetMapping("/consultas")
     public String consultas(Model model ,  HttpSession session){
@@ -301,4 +236,3 @@ public class CajeroController {
     }
 
 }
->>>>>>> 66ae0bb (commit)
